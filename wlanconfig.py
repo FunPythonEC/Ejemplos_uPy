@@ -2,6 +2,7 @@ import socket
 import machine
 import network
 import time
+import robustwlan
 
 def wificonfig():
     def _GET(request,args):
@@ -57,9 +58,10 @@ def wificonfig():
                 f.write(txt)
                 f.close()
                 print("guardado")
+            time.sleep(1)
             
         except Exception:
-            print("fallo de nuevo")
+            print("fallo")
 
         response = html
         conn.send(response)
@@ -72,16 +74,12 @@ def wificonnect():
         if i==1:
             clave=line[6:]
         i=i+1
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    wlan.connect(ssid,clave)
-    time.sleep(3)
-    print(wlan.isconnected())
+    robustwlan.connectwifi(ssid,clave)
     
 def confaccess(pin): 
     pinrev=machine.Pin(pin, machine.Pin.IN, machine.Pin.PULL_UP)
     print(pinrev.value())
-    if pinrev.value()==0:
+    if pinrev.value()==1:
         wificonfig()
     else:
         wificonnect()
