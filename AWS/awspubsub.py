@@ -3,6 +3,9 @@ import network
 import time
 from umqtt.robust import MQTTClient
 
+def cb(topic,msg):
+    print(msg)
+
 HOST = b'endpoint.iot.us-east-1.amazonaws.com' #el host debe ser reemplazado por uno propio
 TOPIC = bytes('TopicName', 'utf-8')
 
@@ -30,7 +33,9 @@ print(rootf)
 time.sleep(1)
 
 conn = MQTTClient(client_id=TOPIC, server=HOST, port=8883, ssl=True, ssl_params={"cert":certf, "key":keyf})
+conn.set_callback(cb)
 conn.connect()
+conn.subscribe()
 
 msg='mensaje'
 
