@@ -35,7 +35,7 @@ time.sleep(1)
 conn = MQTTClient(client_id=TOPIC, server=HOST, port=8883, ssl=True, ssl_params={"cert":certf, "key":keyf})
 conn.set_callback(cb)
 conn.connect()
-conn.subscribe()
+conn.subscribe(TOPIC)
 
 msg='mensaje'
 
